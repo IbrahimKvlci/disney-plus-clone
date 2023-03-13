@@ -1,38 +1,61 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
+import db from '../firebase';
 
-function Detail
-() {
+function Detail() {
+    const {id}=useParams();
+    const [movie, setMovie]=useState();
+    console.log(movie);
+
+    useEffect(()=>{
+        db.collection("movies")
+        .doc(id)
+        .get()
+        .then((doc)=>{
+            if(doc.exists){
+                setMovie(doc.data());
+            } else{
+
+            }
+        })
+    },[])
+
+
   return (
     <Container>
-        <Background>
-            <img src='/images/simpsons-bg.jpg'/>
-        </Background>
-        <ImageTitle>
-            <img src='https://upload.wikimedia.org/wikipedia/commons/9/98/The_Simpsons_yellow_logo.svg'/>
-        </ImageTitle>
-        <Controls>
-            <PlayButton>
-                <img src='/images/play-icon-black.png'/>
-                <span>Play</span>
-            </PlayButton>
-            <TrailerButton>
-                <img src='/images/play-icon-white.png'/>
-                <span>Trailer</span>
-            </TrailerButton>
-            <AddButton>
-                <span>+</span>
-            </AddButton>
-            <GroupWatchButton>
-                <img src='/images/group-icon.png'/>
-            </GroupWatchButton>
-        </Controls>
-        <SubTitle>
-            2018 &#x2022; 7m &#x2022; Family, Fantasy, Kids, Animation
-        </SubTitle>
-        <Description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </Description>
+        {movie && (
+        <>
+            <Background>
+                <img src={movie.backgroundImg}/>
+            </Background>
+            <ImageTitle>
+                <img src={movie.titleImg}/>
+            </ImageTitle>
+            <Controls>
+                <PlayButton>
+                    <img src='/images/play-icon-black.png'/>
+                    <span>Play</span>
+                </PlayButton>
+                <TrailerButton>
+                    <img src='/images/play-icon-white.png'/>
+                    <span>Trailer</span>
+                </TrailerButton>
+                <AddButton>
+                    <span>+</span>
+                </AddButton>
+                <GroupWatchButton>
+                    <img src='/images/group-icon.png'/>
+                </GroupWatchButton>
+            </Controls>
+            <SubTitle>
+                {movie.subTitle}
+            </SubTitle>
+            <Description>
+                {movie.description}
+            </Description>
+        </>
+        )}
     </Container>
   )
 }

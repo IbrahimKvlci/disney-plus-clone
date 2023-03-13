@@ -3,32 +3,36 @@ import { Counter } from './features/counter/Counter';
 import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Detail from './components/Detail';
 import Login from './components/Login';
 
 function App() {
+
+
   return (
     <div className="App">
-      <Router>
+      <BrowserRouter>
         <Header/>
-        <Switch>
-          <Route path="/login">
-            <Login/>
-          </Route>
-          <Route path="/detail">
-            <Detail/>
-          </Route>
-          <Route path="/">
-            <Home/>
-          </Route>
-        </Switch>
-      </Router>
+        <Routes>
+          
+          
+          <Route path='/' element={<Home/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/detail/:id' element={<Detail/>}/>
+
+            {/* <Route path="/login">
+              <Login/>
+            </Route>
+            <Route path="/detail/:id">
+              <Detail/>
+            </Route>
+            <Route path="/">
+              <Home/>
+            </Route> */}
+        
+        </Routes>
+        </BrowserRouter>
     </div>
   );
 }
